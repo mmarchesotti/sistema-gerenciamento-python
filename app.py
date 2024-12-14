@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, render_template, request, jsonify
 import sqlite3
 
 app = Flask(__name__)
@@ -20,7 +20,7 @@ def init_db():
 
 @app.route("/")
 def home():
-    return "Bem-vindo ao sistema de gerenciamento de tarefas!"
+    return render_template("home.html")
 
 @app.route("/tasks", methods=["POST"])
 def create_task():
