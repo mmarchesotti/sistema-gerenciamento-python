@@ -24,6 +24,8 @@ def home():
 
 @app.route("/tasks", methods=["POST"])
 def create_task():
+    print(request)
+    print(request.get_json())
     data = request.get_json()
     title = data.get("title")
     description = data.get("description", "")
@@ -34,8 +36,9 @@ def create_task():
             "INSERT INTO tasks (title, description) VALUES (?, ?)",
             (title, description)
         )
+        task_id = cursor.lastrowid
         conn.commit()
-        return jsonify({"message": "Tarefa criada com sucesso!"}), 201
+        return jsonify({ "message": "Tarefa criada com sucesso!", "id": task_id}), 201
 
 @app.route("/tasks", methods=["GET"])
 def list_tasks():
@@ -46,7 +49,7 @@ def list_tasks():
             {"id": row[0], "title": row[1], "description": row[2], "completed": bool(row[3])}
             for row in cursor.fetchall()
         ]
-        return jsonify(tasks)
+        return jsonify({"message": "Dados recuperados com sucesso", "tasks": tasks})
 
 @app.route("/tasks/<int:task_id>", methods=["PUT"])
 def update_task(task_id):
