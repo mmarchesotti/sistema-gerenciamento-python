@@ -46,9 +46,9 @@ const buildTask = (task) => {
     const tasksContainer = $('#tasks-container');    
     const taskHtml = $(`            
         <div class="card m-2">
-            <div class="card-body">
-                <input type="checkbox" class="task-complete-checkbox"></input>
-                ${task.title}
+            <div class="card-body d-flex align-items-center">
+                <input type="checkbox" class="task-complete-checkbox me-1"></input>
+                <span class="flex-grow-1">${task.title}</span>
             </div>
         </div>
     `)
