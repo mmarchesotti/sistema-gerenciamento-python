@@ -1,2 +1,4 @@
 # Ignore database files
 tasks.db
+__pycache__/
+node_modules/
