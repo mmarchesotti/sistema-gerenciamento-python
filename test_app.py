@@ -43,7 +43,7 @@ class TaskAppTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         tasks = response.get_json()["tasks"]
     
-        self.assertEqual(tasks[0]["title"], "Teste")
+        self.assertEqual(tasks[-1]["title"], "Teste")
 
     def test_update_task(self):
         """Testa a atualização de uma tarefa existente."""
