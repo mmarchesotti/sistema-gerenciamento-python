@@ -1,0 +1,17 @@
+{
+  "name": "sistema-gerenciamento-python",
+  "version": "1.0.0",
+  "description": "Este sistema permite gerenciar tarefas de maneira simples.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "Matheus Marchesotti Dutra Ferraz",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jquery": "^3.7.1"
+  }
+}
