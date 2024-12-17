@@ -18,14 +18,14 @@ def init_db():
         ''')
         conn.commit()
 
+
 @app.route("/")
 def home():
     return render_template("home.html")
 
+
 @app.route("/tasks", methods=["POST"])
 def create_task():
-    print(request)
-    print(request.get_json())
     data = request.get_json()
     title = data.get("title")
     description = data.get("description", "")
@@ -40,6 +40,7 @@ def create_task():
         conn.commit()
         return jsonify({ "message": "Tarefa criada com sucesso!", "id": task_id}), 201
 
+
 @app.route("/tasks", methods=["GET"])
 def list_tasks():
     with sqlite3.connect(DATABASE) as conn:
@@ -51,21 +52,22 @@ def list_tasks():
         ]
         return jsonify({"message": "Dados recuperados com sucesso", "tasks": tasks})
 
+
 @app.route("/tasks/<int:task_id>", methods=["PUT"])
 def update_task(task_id):
     data = request.get_json()
     title = data.get("title")
     description = data.get("description")
-    completed = data.get("completed", False)
     
     with sqlite3.connect(DATABASE) as conn:
         cursor = conn.cursor()
         cursor.execute(
-            "UPDATE tasks SET title = ?, description = ?, completed = ? WHERE id = ?",
-            (title, description, completed, task_id)
+            "UPDATE tasks SET title = ?, description = ? WHERE id = ?",
+            (title, description, task_id)
         )
         conn.commit()
         return jsonify({"message": "Tarefa atualizada com sucesso!"})
+
 
 @app.route("/tasks/<int:task_id>", methods=["DELETE"])
 def delete_task(task_id):
@@ -74,6 +76,22 @@ def delete_task(task_id):
         cursor.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
         conn.commit()
         return jsonify({"message": "Tarefa excluída com sucesso!"})
+
+
+@app.route("/setCompleted/<int:task_id>", methods=["PUT"])
+def setCompleted(task_id):
+    data = request.get_json()
+    completed = data.get("completed")
+
+    with sqlite3.connect(DATABASE) as conn:
+        cursor = conn.cursor()
+        cursor.execute(
+            "UPDATE tasks SET completed = ? WHERE id = ?",
+            (completed, task_id)
+        )
+        conn.commit()
+        return jsonify({"message": "Tarefa atualizada com sucesso!"})
+
 
 if __name__ == "__main__":
     init_db()
